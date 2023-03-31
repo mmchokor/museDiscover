@@ -1,3 +1,4 @@
+import { debounce } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getArtists } from '../api/spotify'
@@ -7,6 +8,7 @@ function ArtistSearch() {
    const navigate = useNavigate()
    const [searchTerm, setSearchTerm] = useState('')
    const [searchResults, setSearchResults] = useState([])
+   const [loading, setLoading] = useState(false)
 
    // Function to handle search input change
    const handleSearchChange = (event) => {
@@ -27,23 +29,24 @@ function ArtistSearch() {
       }
    }, [])
 
-   // use a use effect instead of debouce
+   const debouncedSearch = debounce(async (searchTerm) => {
+      setLoading(true)
+      const results = await getArtists(searchTerm)
+      setSearchResults(results)
+      setLoading(false)
+   }, 500)
+
    useEffect(() => {
       if (searchTerm) {
-         const searching = async () => {
-            const results = await getArtists(searchTerm)
-            setSearchResults(await results)
-            console.log(results)
-         }
-         searching()
-      } else if (searchTerm === '') {
+         debouncedSearch(searchTerm)
+      } else {
          setSearchResults([])
       }
    }, [searchTerm])
 
    return (
       <div className='p-4'>
-         <form>
+         <form className={searchTerm === '' && 'h-[100vh]'}>
             <label htmlFor='search' className='sr-only'>
                Search for an artist
             </label>
@@ -56,17 +59,23 @@ function ArtistSearch() {
                onChange={handleSearchChange}
             />
          </form>
+         {loading && (
+            <p className='text-center text-6xl m-12 font-bold'>Loading...</p>
+         )}
          {searchResults.length > 0 && (
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-               {searchResults.map((result) => (
-                  <ArtistCard
-                     key={result.id}
-                     name={result.name}
-                     imageUrl={result.images[0].url}
-                     followers={result.followers.total}
-                     rating={result.popularity}
-                  />
-               ))}
+               {searchResults.map(
+                  (result) =>
+                     result.images[0] && (
+                        <ArtistCard
+                           key={result.id}
+                           name={result.name}
+                           imageUrl={result.images[0].url}
+                           followers={result.followers.total}
+                           rating={result.popularity}
+                        />
+                     )
+               )}
             </div>
          )}
       </div>
