@@ -1,21 +1,6 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-   const navigate = useNavigate()
-
-   useEffect(() => {
-      const params = new URLSearchParams(window.location.hash.replace('#', ''))
-      const accessToken = params.get('access_token')
-
-      if (accessToken) {
-         // Store the access token in local storage
-         localStorage.setItem('accessToken', accessToken)
-         // Redirect to the Artist Search page
-         navigate('/search')
-      }
-   }, [])
-
    const handleLoginClick = () => {
       const clientId = 'f785d7ec1fcd4c8fa269b54be112e689'
       const redirectUri = 'http://localhost:3000/search'
