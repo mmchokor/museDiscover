@@ -50,14 +50,14 @@ function ArtistSearch() {
             <input
                type='text'
                id='search'
-               className='w-full border rounded-md p-2'
+               className='w-full border rounded-md p-2 mb-4'
                placeholder='Search for an artist...'
                value={searchTerm}
                onChange={handleSearchChange}
             />
          </form>
          {searchResults.length > 0 && (
-            <ul className='mt-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
                {searchResults.map((result) => (
                   <ArtistCard
                      key={result.id}
@@ -67,7 +67,7 @@ function ArtistSearch() {
                      rating={result.popularity}
                   />
                ))}
-            </ul>
+            </div>
          )}
       </div>
    )
