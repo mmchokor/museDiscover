@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getArtists } from '../api/spotify'
+import ArtistCard from '../components/ArtistCard'
 
 function ArtistSearch() {
    const navigate = useNavigate()
@@ -32,9 +33,10 @@ function ArtistSearch() {
          const searching = async () => {
             const results = await getArtists(searchTerm)
             setSearchResults(await results)
+            console.log(results)
          }
          searching()
-      } else {
+      } else if (searchTerm === '') {
          setSearchResults([])
       }
    }, [searchTerm])
@@ -54,15 +56,19 @@ function ArtistSearch() {
                onChange={handleSearchChange}
             />
          </form>
-         {/* {searchResults.length > 0 && (
+         {searchResults.length > 0 && (
             <ul className='mt-4'>
                {searchResults.map((result) => (
-                  <li key={result.id}>
-                     <a href={`/artist/${result.id}`}>{result.name}</a>
-                  </li>
+                  <ArtistCard
+                     key={result.id}
+                     name={result.name}
+                     imageUrl={result.images[0].url}
+                     followers={result.followers.total}
+                     rating={result.popularity}
+                  />
                ))}
             </ul>
-         )} */}
+         )}
       </div>
    )
 }
