@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getArtistAlbums } from '../api/spotify'
 import ArtistAlbumCard from '../components/ArtistAlbumCard'
 
@@ -25,7 +25,15 @@ function ArtistAlbums() {
 
    return (
       <div className='p-4'>
-         <h1 className='text-3xl text-white font-bold mb-4'>Albums</h1>
+         <div className='mb-4'>
+            <span className='text-3xl text-white font-bold mb-4'>Albums</span>
+            <Link
+               to='/search'
+               className='bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded float-right'
+            >
+               Back to search
+            </Link>
+         </div>
          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
             {albums.map((album) => (
                <ArtistAlbumCard key={album.id} album={album} />
