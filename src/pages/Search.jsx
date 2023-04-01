@@ -45,7 +45,9 @@ function ArtistSearch() {
 
    return (
       <div className='p-4'>
-         <form className={searchTerm === '' && 'h-[100vh]'}>
+         <form
+            className={`mx-auto max-w-xs ${searchTerm === '' && 'h-[100vh]'}`}
+         >
             <label htmlFor='search' className='sr-only'>
                Search for an artist
             </label>
@@ -59,7 +61,11 @@ function ArtistSearch() {
             />
          </form>
          {loading && (
-            <p className='text-center text-6xl m-12 font-bold'>Loading...</p>
+            <div className='flex justify-center'>
+               <p className='text-center text-6xl m-12 font-bold min-h-screen'>
+                  Loading...
+               </p>
+            </div>
          )}
          {searchResults.length > 0 && (
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
