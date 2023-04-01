@@ -1,12 +1,16 @@
+import { atom, useAtom } from 'jotai'
 import { debounce } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getArtists } from '../api/spotify'
 import ArtistCard from '../components/ArtistCard'
 
-function ArtistSearch() {
+// Creating a jotai atom to store the search term
+const searchTermAtom = atom('')
+
+const ArtistSearch = () => {
    const navigate = useNavigate()
-   const [searchTerm, setSearchTerm] = useState('')
+   const [searchTerm, setSearchTerm] = useAtom(searchTermAtom)
    const [searchResults, setSearchResults] = useState([])
    const [loading, setLoading] = useState(false)
 
