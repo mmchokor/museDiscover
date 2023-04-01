@@ -19,7 +19,6 @@ function ArtistSearch() {
    useEffect(() => {
       const params = new URLSearchParams(window.location.hash.replace('#', ''))
       const accessToken = params.get('access_token')
-      console.log(accessToken)
 
       if (accessToken) {
          // Store the access token in local storage
@@ -69,6 +68,7 @@ function ArtistSearch() {
                      result.images[0] && (
                         <ArtistCard
                            key={result.id}
+                           artistId={result.id}
                            name={result.name}
                            imageUrl={result.images[0].url}
                            followers={result.followers.total}

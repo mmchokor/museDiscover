@@ -1,8 +1,19 @@
-const ArtistCard = ({ name, imageUrl, followers, rating }) => {
+import { useNavigate } from 'react-router-dom'
+
+const ArtistCard = ({ name, imageUrl, followers, rating, artistId }) => {
    const roundedRating = Math.round(rating * 10) / 10
 
+   const navigate = useNavigate()
+
+   const handleOnClick = () => {
+      navigate(`/artist-albums/${artistId}`)
+   }
+
    return (
-      <div className='max-w-xs rounded-md overflow-hidden shadow-md bg-gray-800 mx-auto'>
+      <div
+         className='max-w-xs rounded-md overflow-hidden shadow-md bg-gray-800 mx-auto cursor-pointer'
+         onClick={handleOnClick}
+      >
          <img src={imageUrl} alt={`${name} image`} className='w-full' />
          <div className='p-4'>
             <h2 className='font-bold text-lg text-white'>{name}</h2>
